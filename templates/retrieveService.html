@@ -1,0 +1,97 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+{% from "includes/_formHelper.html" import render_field %}
+
+
+<div class="dropdown5">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    Services
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="/retrieveService1">All</a></li>
+    <li><a class="dropdown-item" href="/retrieveService">Service</a></li>
+    <li><a class="dropdown-item" href="/retrieveCarservice">Car service</a></li>
+  </ul>
+</div>
+<div class="dropdown5">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+    Create
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="/createService">Service</a></li>
+    <li><a class="dropdown-item" href="/createCarservice">Car Service</a></li>
+  </ul>
+</div>
+
+<h1 class="display-4">Services</h1>
+<div>
+  {% if count1 == 0 %}
+  <p>There are no services.</p>
+  {% elif count1 == 1 %}
+  <p>There is 1 service.</p>
+  {% else %}
+  <p>There are {{ count1 }} services.</p>
+  {% endif %}
+</div>
+<div>
+  <table id="datatablesSimple">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Availability</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for service in services_list %}
+      <tr>
+        <td><img src="/static/images/{{ service.get_image() }}" width="100"></td>
+        <td>{{ service.get_name() }}</td>
+        <td>{{ service.get_description() }}</td>
+        <td class="{% if service.get_availability() == 'Available' %} text-success {% else %} text-danger {% endif %}">{{ service.get_availability() }}</td>
+        <td><a href="/updateService/{{service.get_service_id()}}" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_service', id=service.get_service_id())}}" method="POST">
+    <!--<input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete  {{service.get_name()}}?');">-->
+    <!-- Button to Open the Modal -->
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{service.get_service_id()}}">
+      Delete
+    </button>
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal_{{service.get_service_id()}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Are you sure you want to delete  {{service.get_name()}}?
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <input type="submit" value="Delete" class="btn btn-danger">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+  {%endblock%}
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>

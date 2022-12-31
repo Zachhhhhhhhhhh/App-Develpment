@@ -1,0 +1,50 @@
+{% extends "custindex.html" %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<br>
+<div class="dropdown5">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton5" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:black">
+    Normal Services
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="/retrieveCustservice1">All Services</a></li>
+    <li><a class="dropdown-item" href="/retrieveCustservice">Normal Services</a></li>
+    <li><a class="dropdown-item" href="/retrieveCustcarservice">Car services</a></li>
+  </ul>
+  </div>
+{% for service in services_list %}
+  {% if service.get_availability() == 'Available': %}
+  <div class="card" id="service5" style="width: 20rem;"  >
+    <img src="/static/images/{{ service.get_image() }}" width="250" class="imgi" height="200">
+    <div class="card-body">
+      <h5 class="card-title">{{ service.get_name() }}</h5>
+
+      <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalCenter{{ service.get_service_id() }}">
+    Learn More
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter{{ service.get_service_id() }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">{{ service.get_name()}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="/static/images/{{ service.get_image() }}" width="450" class="imgi1" height="300">
+          {{ service.get_description() }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+  {% endif %}
+{% endfor %}
+{% endblock %}

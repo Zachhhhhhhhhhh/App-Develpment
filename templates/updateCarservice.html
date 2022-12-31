@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<h1 class="display-4">Update Car Services</h1>
+
+<form method="POST" action=""  enctype="multipart/form-data">
+  <div class="form-group">
+    {{ render_field(form.name, class="form-control") }}
+  </div>
+  <div class="form-group">
+   <input type="file" name="image" accept="images/*" multiple>
+  </div>
+  <div class="form-group">
+    {{ render_field(form.description, class="form-control") }}
+  </div>
+    <div class="form-group">
+    {{ render_field(form.location, class="form-control") }}
+  </div>
+    <div class="form-group">
+    {{ render_field(form.hotline, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.starting_hour, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.ending_hour, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.opening_days, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.availability, class="form-check", style="list-style-type:none") }}
+  </div>
+  <input type="submit" value="Submit" class="btn btn-primary"/>
+</form>
+{% endblock %}
